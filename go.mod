@@ -2,6 +2,8 @@ module github.com/paketo-buildpacks/npm-install
 
 go 1.14
 
+replace github.com/paketo-buildpacks/packit => /home/ubuntu/workspace/forks/packit
+
 require (
 	github.com/BurntSushi/toml v0.3.1
 	github.com/onsi/gomega v1.11.0

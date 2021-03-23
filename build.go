@@ -8,6 +8,7 @@ import (
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/fs"
+	"github.com/paketo-buildpacks/packit/parsers"
 	"github.com/paketo-buildpacks/packit/scribe"
 )
 
@@ -22,7 +23,7 @@ type EnvironmentConfig interface {
 	GetValue(key string) string
 }
 
-func Build(projectPathParser PathParser, buildManager BuildManager, clock chronos.Clock, environment EnvironmentConfig, logger scribe.Logger) packit.BuildFunc {
+func Build(projectPathParser parsers.ProjectPathParser, buildManager BuildManager, clock chronos.Clock, environment EnvironmentConfig, logger scribe.Logger) packit.BuildFunc {
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
 		logger.Title("%s %s", context.BuildpackInfo.Name, context.BuildpackInfo.Version)
 
@@ -40,7 +41,7 @@ func Build(projectPathParser PathParser, buildManager BuildManager, clock chrono
 
 		logger.Process("Resolving installation process")
 
-		projectPath, err := projectPathParser.Get(context.WorkingDir)
+		projectPath, err := projectPathParser.Get(context.WorkingDir, "BP_NODE_PROJECT_PATH")
 		if err != nil {
 			return packit.BuildResult{}, err
 		}

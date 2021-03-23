@@ -7,12 +7,13 @@ import (
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/chronos"
 	"github.com/paketo-buildpacks/packit/fs"
+	"github.com/paketo-buildpacks/packit/parsers"
 	"github.com/paketo-buildpacks/packit/pexec"
 	"github.com/paketo-buildpacks/packit/scribe"
 )
 
 func main() {
-	projectPathParser := npminstall.NewProjectPathParser()
+	projectPathParser := parsers.NewProjectPathParser()
 	packageJSONParser := npminstall.NewPackageJSONParser()
 	executable := pexec.NewExecutable("npm")
 	logger := scribe.NewLogger(os.Stdout)

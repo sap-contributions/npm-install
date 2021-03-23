@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/paketo-buildpacks/packit"
+	"github.com/paketo-buildpacks/packit/parsers"
 )
 
 type BuildPlanMetadata struct {
@@ -20,15 +21,10 @@ type VersionParser interface {
 	ParseVersion(path string) (version string, err error)
 }
 
-//go:generate faux --interface PathParser --output fakes/path_parser.go
-type PathParser interface {
-	Get(path string) (projectPath string, err error)
-}
-
-func Detect(projectPathParser PathParser, packageJSONParser VersionParser) packit.DetectFunc {
+func Detect(projectPathParser parsers.ProjectPathParser, packageJSONParser VersionParser) packit.DetectFunc {
 	return func(context packit.DetectContext) (packit.DetectResult, error) {
 
-		projectPath, err := projectPathParser.Get(context.WorkingDir)
+		projectPath, err := projectPathParser.Get(context.WorkingDir, "BP_NODE_PROJECT_PATH")
 		if err != nil {
 			return packit.DetectResult{}, err
 		}

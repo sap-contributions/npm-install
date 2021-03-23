@@ -16,7 +16,6 @@ func TestUnitNPMInstall(t *testing.T) {
 	suite("Environment", testEnvironment)
 	suite("InstallBuildProcess", testInstallBuildProcess)
 	suite("PackageJSONParser", testPackageJSONParser)
-	suite("ProjectPathParser", testProjectPathParser)
 	suite("RebuildBuildProcess", testRebuildBuildProcess)
 	suite.Run(t)
 }
