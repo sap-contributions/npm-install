@@ -51,7 +51,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(err).NotTo(HaveOccurred())
 
 		projectPathParser = &fakesparsers.ProjectPathParser{}
-		projectPathParser.GetCall.Returns.String = ""
+		projectPathParser.GetCall.Returns.ProjectPath = ""
 
 		buildProcess = &fakes.BuildProcess{}
 		buildProcess.ShouldRunCall.Returns.Run = true
@@ -141,7 +141,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			},
 		}))
 
-		Expect(projectPathParser.GetCall.Receives.WorkingDirPath).To(Equal(workingDir))
+		Expect(projectPathParser.GetCall.Receives.Path).To(Equal(workingDir))
 		Expect(buildManager.ResolveCall.Receives.WorkingDir).To(Equal(workingDir))
 		Expect(environment.ConfigureCall.CallCount).To(Equal(1))
 		Expect(environment.ConfigureCall.Receives.Layer.Path).To(Equal(filepath.Join(layersDir, npminstall.LayerNameNodeModules)))
@@ -210,7 +210,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 				},
 			}))
 
-			Expect(projectPathParser.GetCall.Receives.WorkingDirPath).To(Equal(workingDir))
+			Expect(projectPathParser.GetCall.Receives.Path).To(Equal(workingDir))
 			Expect(buildManager.ResolveCall.Receives.WorkingDir).To(Equal(workingDir))
 
 			Expect(processLayerDir).To(Equal(filepath.Join(layersDir, npminstall.LayerNameNodeModules)))
@@ -258,7 +258,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 				},
 			}))
 
-			Expect(projectPathParser.GetCall.Receives.WorkingDirPath).To(Equal(workingDir))
+			Expect(projectPathParser.GetCall.Receives.Path).To(Equal(workingDir))
 			Expect(buildManager.ResolveCall.Receives.WorkingDir).To(Equal(workingDir))
 			Expect(buildProcess.RunCall.CallCount).To(Equal(0))
 
@@ -270,7 +270,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		context("when BP_NODE_PROJECT_PATH is set", func() {
 			it.Before(func() {
 				buildProcess.ShouldRunCall.Returns.Run = true
-				projectPathParser.GetCall.Returns.String = "some-dir"
+				projectPathParser.GetCall.Returns.ProjectPath = "some-dir"
 				Expect(os.MkdirAll(filepath.Join(workingDir, "some-dir", "node_modules"), os.ModePerm))
 			})
 
@@ -320,7 +320,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					},
 				}))
 
-				Expect(projectPathParser.GetCall.Receives.WorkingDirPath).To(Equal(workingDir))
+				Expect(projectPathParser.GetCall.Receives.Path).To(Equal(workingDir))
 				Expect(buildManager.ResolveCall.Receives.WorkingDir).To(Equal(filepath.Join(workingDir, "some-dir")))
 				Expect(environment.ConfigureCall.CallCount).To(Equal(1))
 				Expect(environment.ConfigureCall.Receives.Layer.Path).To(Equal(filepath.Join(layersDir, npminstall.LayerNameNodeModules)))
@@ -573,7 +573,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		context("when the project path parser provided fails", func() {
 			it.Before(func() {
-				projectPathParser.GetCall.Returns.Error = errors.New("some-error")
+				projectPathParser.GetCall.Returns.Err = errors.New("some-error")
 			})
 
 			it("returns an error", func() {

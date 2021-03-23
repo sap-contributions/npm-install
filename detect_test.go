@@ -28,7 +28,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		packageJSONParser.ParseVersionCall.Returns.Version = "1.2.3"
 
 		projectPathParser = &parsersfakes.ProjectPathParser{}
-		projectPathParser.GetCall.Returns.String = ""
+		projectPathParser.GetCall.Returns.ProjectPath = ""
 
 		detect = npminstall.Detect(projectPathParser, packageJSONParser)
 	})
@@ -61,7 +61,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		}))
 
 		Expect(packageJSONParser.ParseVersionCall.Receives.Path).To(Equal("/working-dir/package.json"))
-		Expect(projectPathParser.GetCall.Receives.WorkingDirPath).To(Equal("/working-dir"))
+		Expect(projectPathParser.GetCall.Receives.Path).To(Equal("/working-dir"))
 	})
 
 	context("when the package.json does not declare a node engine version", func() {
@@ -95,7 +95,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 			}))
 
 			Expect(packageJSONParser.ParseVersionCall.Receives.Path).To(Equal("/working-dir/package.json"))
-			Expect(projectPathParser.GetCall.Receives.WorkingDirPath).To(Equal("/working-dir"))
+			Expect(projectPathParser.GetCall.Receives.Path).To(Equal("/working-dir"))
 		})
 	})
 
@@ -129,7 +129,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 
 		context("when the project path parser fails", func() {
 			it.Before(func() {
-				projectPathParser.GetCall.Returns.Error = errors.New("some-error")
+				projectPathParser.GetCall.Returns.Err = errors.New("some-error")
 			})
 
 			it("returns an error", func() {
