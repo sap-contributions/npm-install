@@ -78,7 +78,7 @@ func testBuildProcessResolver(t *testing.T, context spec.G, it spec.S) {
 
 				Expect(buildProcess).To(Equal(npminstall.NewInstallBuildProcess(executable, environment, scribe.NewLogger(os.Stdout))))
 
-				contents, err := os.ReadFile(filepath.Join(cacheDir, "npm-cache", "some-cache-file"))
+				contents, err := os.ReadFile(filepath.Join(cacheDir, "some-cache-file"))
 				Expect(err).NotTo(HaveOccurred())
 				Expect(string(contents)).To(Equal("some-content"))
 			})
@@ -117,7 +117,7 @@ func testBuildProcessResolver(t *testing.T, context spec.G, it spec.S) {
 
 				Expect(buildProcess).To(Equal(npminstall.NewRebuildBuildProcess(executable, summer, environment, scribe.NewLogger(os.Stdout))))
 
-				contents, err := os.ReadFile(filepath.Join(cacheDir, "npm-cache", "some-cache-file"))
+				contents, err := os.ReadFile(filepath.Join(cacheDir, "some-cache-file"))
 				Expect(err).NotTo(HaveOccurred())
 				Expect(string(contents)).To(Equal("some-content"))
 			})
@@ -174,7 +174,7 @@ func testBuildProcessResolver(t *testing.T, context spec.G, it spec.S) {
 
 				Expect(buildProcess).To(Equal(npminstall.NewCIBuildProcess(executable, summer, environment, scribe.NewLogger(os.Stdout))))
 
-				contents, err := os.ReadFile(filepath.Join(cacheDir, "npm-cache", "some-cache-file"))
+				contents, err := os.ReadFile(filepath.Join(cacheDir, "some-cache-file"))
 				Expect(err).NotTo(HaveOccurred())
 				Expect(string(contents)).To(Equal("some-content"))
 			})
@@ -199,7 +199,7 @@ func testBuildProcessResolver(t *testing.T, context spec.G, it spec.S) {
 
 				Expect(buildProcess).To(Equal(npminstall.NewCIBuildProcess(executable, summer, environment, scribe.NewLogger(os.Stdout))))
 
-				contents, err := os.ReadFile(filepath.Join(cacheDir, "npm-cache", "some-cache-file"))
+				contents, err := os.ReadFile(filepath.Join(cacheDir, "some-cache-file"))
 				Expect(err).NotTo(HaveOccurred())
 				Expect(string(contents)).To(Equal("some-content"))
 			})

@@ -68,7 +68,7 @@ func (r BuildProcessResolver) Resolve(workingDir, cacheDir string) (BuildProcess
 	}
 
 	if cached {
-		err := fs.Move(npmCachePath, filepath.Join(cacheDir, "npm-cache"))
+		err := fs.Move(npmCachePath, cacheDir)
 		if err != nil {
 			return nil, err
 		}
